@@ -1,9 +1,9 @@
 
-import {throwError as observableThrowError,  Observable } from 'rxjs';
+import { throwError as observableThrowError,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
 
-import { Http, Response } from '@angular/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Todo } from './todo';
 
 import {catchError, map, take} from 'rxjs/operators';
@@ -17,7 +17,7 @@ const API_URL = environment.apiUrl;
 export class ApiService {
 
   constructor(
-    private http: Http
+    private http: HttpClient
   ) {
   }
 
@@ -26,8 +26,7 @@ export class ApiService {
       .get(API_URL + '/todos')
       .pipe(
         map(response => {
-          const todos = response.json();
-          return todos.map((todo) => new Todo(todo));
+          return response.map((todo) => new Todo(todo));
         }),
         catchError(this.handleError)
       );
@@ -38,7 +37,7 @@ export class ApiService {
       .post(API_URL + '/todos', todo)
       .pipe(
         map(response => {
-          return new Todo(response.json());
+          return new Todo(response);
         }),
         catchError(this.handleError)
       );
@@ -75,7 +74,7 @@ export class ApiService {
       );
   }
 
-  private handleError (error: Response | any) {
+  private handleError (error: HttpResponse<any>) {
     console.error('ApiService::handleError', error);
     return observableThrowError(error);
   }
