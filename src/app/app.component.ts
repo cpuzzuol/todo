@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TodoDataService} from './todo-data.service';
 import { Todo } from './todo';
 
@@ -9,10 +9,10 @@ import { Todo } from './todo';
   // TodoDataService is declared in the app.module.ts, so it is available to ALL components in the entire application.
   providers: [],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'todo-list';
 
-  newTodo: Todo = new Todo();
+  todos: Todo[] = [];
 
   // Ask Angular DI system to inject the dependency
   // associated with the dependency injection token `TodoDataService`
@@ -23,37 +23,31 @@ export class AppComponent {
 
   }
 
-  /*addTodo() {
-    this.todoDataService.addTodo(this.newTodo);
-    this.newTodo = new Todo();
-  }*/
+  public ngOnInit() {
+    this.todoDataService
+      .getAllTodos()
+      .subscribe((todos) => this.todos = todos);
+  }
 
   // Handle event emitted by TodoListHeaderComponent
   onAddTodo(todo: Todo) {
-    this.todoDataService.addTodo(todo);
+    this.todoDataService
+      .addTodo(todo)
+      // .subscribe is for ASYNCHRONOUS nature of the OBSERVABLE returned by the API call
+      .subscribe((newTodo) => this.todos.concat(newTodo));
   }
-
-  /*
-  toggleTodoComplete(todo) {
-    this.todoDataService.toggleTodoComplete(todo);
-  }
-  */
 
   onToggleTodoComplete(todo) {
-    this.todoDataService.toggleTodoComplete(todo);
+    this.todoDataService
+      .toggleTodoComplete(todo)
+      .subscribe((updateTodo) => todo = updateTodo);
   }
-
-  /*
-  removeTodo(todo) {
-    this.todoDataService.deleteTodoById(todo.id);
-  }
-  */
 
   onRemoveTodo(todo) {
-    this.todoDataService.deleteTodoById(todo.id);
-  }
-
-  get todos() {
-    return this.todoDataService.getAllTodos();
+    this.todoDataService
+      .deleteTodoById(todo.id)
+      .subscribe((_) => {
+        this.todos = this.todos.filter((t) => t.id !== todo.id);
+      });
   }
 }
