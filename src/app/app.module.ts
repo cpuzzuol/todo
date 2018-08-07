@@ -10,6 +10,8 @@ import { TodoListFooterComponent } from './todo-list-footer/todo-list-footer.com
 import { ApiService } from './api.service';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
+import { TodosComponent } from './todos/todos.component';
+import { BobComponent } from './bob/bob.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import { AppRoutingModule } from './app-routing.module';
     TodoListHeaderComponent,
     TodoListComponent,
     TodoListItemComponent,
-    TodoListFooterComponent
+    TodoListFooterComponent,
+    TodosComponent,
+    BobComponent,
   ],
   imports: [
     AppRoutingModule,
