@@ -2,22 +2,22 @@
   "todos": [
     {
       "title": "Read SitePoint article",
-      "complete": true,
+      "complete": false,
       "id": 1
     },
     {
       "title": "Clean inbox",
-      "complete": true,
+      "complete": false,
       "id": 2
     },
     {
       "title": "Make restaurant reservation",
-      "complete": true,
+      "complete": false,
       "id": 3
     },
     {
       "title": "tommy",
-      "complete": true,
+      "complete": false,
       "id": 4
     },
     {
@@ -44,6 +44,11 @@
       "title": "wefewf",
       "complete": true,
       "id": 9
+    },
+    {
+      "title": "phillies",
+      "complete": false,
+      "id": 10
     }
   ]
 }
